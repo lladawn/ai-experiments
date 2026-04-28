@@ -1,0 +1,14 @@
+# API keys (just in case)
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# macOS
+.DS_Store
+
+# Obsidian vault settings (optional — some people commit these)
+wiki/.obsidian/
