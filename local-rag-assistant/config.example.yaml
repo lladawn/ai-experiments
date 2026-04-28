@@ -1,0 +1,33 @@
+# ── Paths ─────────────────────────────────────────────────────────────────────
+paths:
+  raw_data: "data/raw" # where your Notion export lives
+  processed: "data/processed" # chunked JSON cache (speeds up re-runs)
+  chroma_db: "db/chroma" # persistent ChromaDB directory
+  sqlite_db: "db/events.db" # structured events database
+
+# ── Models ────────────────────────────────────────────────────────────────────
+models:
+  # llm: "mistral-small3.2:latest" # main chat + extraction model (24B)
+  llm: "gemma4"
+  embeddings: "mxbai-embed-large" # embedding model
+
+  # Alternatives:
+  # llm: "mistral-small3.1"        # previous generation, also good
+  # llm: "mistral-small"           # resolves to latest Mistral Small
+  # llm: "llama3.1:8b"             # faster, lighter, slightly less capable
+
+# ── Chunking ──────────────────────────────────────────────────────────────────
+chunking:
+  chunk_size: 600 # characters per chunk (sweet spot for Notion notes)
+  chunk_overlap: 80 # overlap to preserve context across chunk boundaries
+
+# ── Retrieval ─────────────────────────────────────────────────────────────────
+retrieval:
+  top_k: 6 # number of chunks to retrieve per query
+  bm25_weight: 0.3 # weight for keyword score in hybrid (0 = pure vector)
+  vector_weight: 0.7
+
+# ── Extraction ────────────────────────────────────────────────────────────────
+extraction:
+  batch_size: 5 # pages to extract in one LLM call (tune if slow)
+  max_events_per_page: 10
