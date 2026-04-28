@@ -1,11 +1,43 @@
 """
-Writer agent — takes all search findings and synthesises them into
-a well-structured markdown report with inline citations.
+Writer agent — two modes:
+- write_report(): neutral synthesis (original)
+- write_debate_report(): structured FOR vs AGAINST report per question
 """
 
-from .searcher import SearchFindings
 from .llm import chat
+from .searcher import DebateFindings, SearchFindings
 
+DEBATE_SYSTEM_PROMPT = """You are an expert writer producing a balanced debate-style research report.
+You will receive a topic and multiple questions, each with a FOR summary and an AGAINST summary.
+
+Write a structured markdown report that presents both sides fairly.
+
+Structure:
+# [Topic]: A Balanced Analysis
+
+## Overview
+2–3 sentences framing why this topic has two sides worth examining.
+
+## [Meaningful heading per question — not the raw question text]
+
+### The Case For
+Prose summary of supporting evidence with inline citations [1], [2]...
+
+### The Case Against
+Prose summary of opposing evidence with inline citations [N], [N+1]...
+
+## Verdict
+What does the weight of evidence suggest? What remains genuinely contested?
+Be honest if one side has stronger evidence — don't force false balance.
+
+## References
+Numbered list of all source URLs.
+
+Rules:
+- Flowing prose, not bullet points
+- Cite sources inline throughout
+- Be specific: names, numbers, dates, studies
+- Never editorialize — present each side's strongest case faithfully"""
 
 SYSTEM_PROMPT = """You are an expert research writer.
 Given a topic and a set of research findings (each with a question, summary, and sources),
@@ -56,4 +88,38 @@ async def write_report(topic: str, findings: list[SearchFindings]) -> str:
     )
 
     print("  ✓ Report complete")
+    return report
+
+
+async def write_debate_report(topic: str, findings: list[DebateFindings]) -> str:
+    """Synthesise debate findings (FOR + AGAINST per question) into a balanced report."""
+    print(
+        f"\n✍️  Debate writer: Synthesising {len(findings)} questions into debate report..."
+    )
+
+    findings_text = ""
+    ref_counter = 1
+    for f in findings:
+        findings_text += f"\n### Question: {f.question}\n"
+        findings_text += "\n**FOR (supporting evidence):**\n"
+        findings_text += f"{f.pro_summary}\n"
+        findings_text += "Sources:\n"
+        for src in f.pro_sources:
+            findings_text += f"  [{ref_counter}] {src.title} — {src.url}\n"
+            ref_counter += 1
+
+        findings_text += "\n**AGAINST (opposing evidence):**\n"
+        findings_text += f"{f.con_summary}\n"
+        findings_text += "Sources:\n"
+        for src in f.con_sources:
+            findings_text += f"  [{ref_counter}] {src.title} — {src.url}\n"
+            ref_counter += 1
+
+    report = await chat(
+        system=DEBATE_SYSTEM_PROMPT,
+        user=f"Topic: {topic}\n\nFindings:\n{findings_text}",
+        max_tokens=2500,
+    )
+
+    print("  ✓ Debate report complete")
     return report
