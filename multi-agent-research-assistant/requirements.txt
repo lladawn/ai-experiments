@@ -1,0 +1,10 @@
+httpx>=0.27.0
+python-dotenv>=1.0.0
+duckduckgo-search>=6.0.0
+
+# Optional: for Streamlit UI
+streamlit>=1.35.0
+
+# Optional: for CrewAI version (see README)
+# crewai>=0.55.0
+# crewai-tools>=0.8.0
