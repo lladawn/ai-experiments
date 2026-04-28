@@ -1,0 +1,58 @@
+profile:
+  name: "My Digest"
+  interests:
+    - AI and machine learning
+    - open source software
+    - developer tools
+    - Python
+    - system design
+  # Items scoring below this threshold are dropped (1-10)
+  min_relevance_score: 6
+
+sources:
+  rss:
+    enabled: true
+    feeds:
+      - name: "Hacker News RSS"
+        url: "https://news.ycombinator.com/rss"
+      - name: "The Verge"
+        url: "https://www.theverge.com/rss/index.xml"
+      - name: "MIT Tech Review"
+        url: "https://www.technologyreview.com/feed/"
+  hackernews:
+    enabled: true
+    top_n: 20 # fetch top N stories
+  reddit:
+    enabled: true
+    subreddits:
+      - name: "r/MachineLearning"
+        limit: 10
+      - name: "r/programming"
+        limit: 10
+      - name: "r/LocalLLaMA"
+        limit: 8
+
+llm:
+  provider: "ollama" # "ollama" or "groq"
+  model: "gemma4:latest" # ollama model name
+  # groq_model: "llama3-8b-8192"
+  # groq_api_key: ""   # or set env var GROQ_API_KEY
+  max_items_to_summarize: 15
+
+output:
+  format: "markdown" # "markdown", "html", or "json"
+  delivery:
+    terminal: true
+    save_file: true
+    file_path: "./digests/digest_{date}.md"
+    # email:
+    #   enabled: false
+    #   smtp_host: "smtp.gmail.com"
+    #   smtp_port: 587
+    #   from: ""
+    #   to: ""
+    #   password: ""  # or set env var EMAIL_PASSWORD
+
+memory:
+  seen_urls_file: "./data/seen_urls.json"
+  max_history_days: 30
