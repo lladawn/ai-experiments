@@ -1,0 +1,17 @@
+services:
+  tiny-memory-mcp:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8000
+      TINY_MEMORY_DB: /data/memory.sqlite3
+      # Optional: set this, then configure ChatGPT/ngrok clients with
+      # Authorization: Bearer <token>
+      # MCP_BEARER_TOKEN: change-me
+    volumes:
+      - tiny-memory-data:/data
+
+volumes:
+  tiny-memory-data:
