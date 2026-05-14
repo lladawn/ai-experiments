@@ -9,6 +9,7 @@ project is self-contained and has its own README with setup and usage details.
 | Project | What it does | Main ideas |
 | --- | --- | --- |
 | [`daily-digest-agent`](daily-digest-agent/) | Builds a personalized daily Markdown digest from RSS, Hacker News, and Reddit. | Local or API-backed LLM scoring, summarization, deduplication, configurable sources. |
+| [`mac-agent-runtime`](mac-agent-runtime/) | Runs local desktop agents with context isolation, tools, approvals, and overlay state. | Context packets, tool policy, verification, multi-agent orchestration, local daemon. |
 | [`llm-wiki`](llm-wiki/) | Maintains a persistent LLM-assisted wiki from source documents and saved queries. | Compounding knowledge base, source ingestion, Obsidian-friendly wiki pages, Anthropic or Ollama backend. |
 | [`local-rag-assistant`](local-rag-assistant/) | Lets you chat with a local Notion export and extract structured timelines from it. | Local RAG, ChromaDB, SQLite, DuckDB analytics, Streamlit UI, Ollama models. |
 | [`multi-agent-research-assistant`](multi-agent-research-assistant/) | Produces cited research reports from a topic using planner, searcher, and writer agents. | Async multi-agent workflow, web search, provider abstraction, CLI and Streamlit interfaces. |
@@ -29,6 +30,21 @@ Start here:
 cd daily-digest-agent
 pip install -r requirements.txt
 python main.py
+```
+
+### Mac Agent Runtime
+
+`mac-agent-runtime` is a small harness for making desktop-agent execution
+visible and testable. It models an agent run as structured context packets,
+explicit tool allowlists, pre/post enforcement, verification, and deliberately
+isolated subagent packets.
+
+Start here:
+
+```bash
+cd mac-agent-runtime
+PYTHONPATH=src python3 -m mac_agent_runtime "Explain the harness shape"
+PYTHONPATH=src python3 -m unittest discover -s tests
 ```
 
 ### LLM Wiki

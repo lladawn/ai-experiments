@@ -1,0 +1,19 @@
+[project]
+name = "mac-agent-runtime"
+version = "0.1.0"
+description = "A small harness for context-first agent experiments."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+mac-agent-demo = "mac_agent_runtime.__main__:main"
+mac-agent-runtime = "mac_agent_runtime.operator:main"
+mac-agent-overlay = "mac_agent_runtime.overlay_server:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
