@@ -9,6 +9,7 @@ project is self-contained and has its own README with setup and usage details.
 | Project | What it does | Main ideas |
 | --- | --- | --- |
 | [`daily-digest-agent`](daily-digest-agent/) | Builds a personalized daily Markdown digest from RSS, Hacker News, and Reddit. | Local or API-backed LLM scoring, summarization, deduplication, configurable sources. |
+| [`flaw-finder`](flaw-finder/) | Red-teams product pitches, decks, proposals, and app copy before launch. | Persona reviewers, local rules, ranked fixes, traceable findings. |
 | [`llm-wiki`](llm-wiki/) | Maintains a persistent LLM-assisted wiki from source documents and saved queries. | Compounding knowledge base, source ingestion, Obsidian-friendly wiki pages, Anthropic or Ollama backend. |
 | [`local-rag-assistant`](local-rag-assistant/) | Lets you chat with a local Notion export and extract structured timelines from it. | Local RAG, ChromaDB, SQLite, DuckDB analytics, Streamlit UI, Ollama models. |
 | [`multi-agent-research-assistant`](multi-agent-research-assistant/) | Produces cited research reports from a topic using planner, searcher, and writer agents. | Async multi-agent workflow, web search, provider abstraction, CLI and Streamlit interfaces. |
@@ -29,6 +30,20 @@ Start here:
 cd daily-digest-agent
 pip install -r requirements.txt
 python main.py
+```
+
+### Flaw Finder
+
+`flaw-finder` runs a small panel of adversarial reviewers over a product pitch,
+proposal, website/app copy, or deck text. It reports findings from investor,
+lawyer, and end-user perspectives, then synthesizes the highest-leverage fixes.
+
+Start here:
+
+```bash
+cd flaw-finder
+PYTHONPATH=src python3 -m flaw_finder.cli examples/sample_pitch.md
+PYTHONPATH=src python3 -m unittest discover -s tests
 ```
 
 ### LLM Wiki

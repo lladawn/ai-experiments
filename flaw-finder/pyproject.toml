@@ -1,0 +1,18 @@
+[project]
+name = "flaw-finder"
+version = "0.1.0"
+description = "A small multi-agent product red-team experiment."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+flaw-finder = "flaw_finder.cli:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
